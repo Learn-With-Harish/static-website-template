@@ -1,4 +1,4 @@
-name: Static Website CI/CD
+name: Deploy Static Website to GitHub Pages
 
 on:
   push:
@@ -12,72 +12,55 @@ permissions:
   id-token: write
 
 jobs:
-  test:
+  # Quality checks for static content
+  quality-check:
+    name: Quality Assurance
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Validate HTML files
-      run: |
-        echo "🔍 Validating HTML structure..."
-        HTML_FILES=$(find . -name "*.html" -not -path "./.git/*")
-        for file in $HTML_FILES; do
-          echo "Checking $file"
-          if ! grep -q "<!DOCTYPE html>" "$file"; then
-            echo "❌ ERROR: $file missing DOCTYPE"
-            exit 1
-          fi
-          if ! grep -q "<title>" "$file"; then
-            echo "⚠️ WARNING: $file missing title"
-          fi
-          echo "✅ $file passed basic validation"
-        done
+    - name: HTML Validation
+      uses: cycleplatform/html5-validator-action@v1
+      with:
+        directory: ./
+        ignore: "node_modules/"
 
-    - name: Check for broken internal links
-      run: |
-        echo "🔗 Checking internal links..."
-        for file in *.html; do
-          if [ -f "$file" ]; then
-            echo "Checking links in $file"
-            # Simple link check - looks for href attributes
-            grep -o 'href="[^"]*"' "$file" | while read -r link; do
-              link=${link#href=\"}
-              link=${link%\"}
-              if [[ $link == /* || $link == ./* ]] && [[ ! $link =~ http ]]; then
-                if [ ! -f "$link" ] && [ ! -d "$link" ]; then
-                  echo "❌ Broken link in $file: $link"
-                  exit 1
-                fi
-              fi
-            done
-          fi
-        done
+    - name: Check for broken links
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
 
+    - name: Lighthouse CI Performance Check
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+
+  # Deployment to GitHub Pages
   deploy:
-    needs: test
+    name: Deploy to GitHub Pages
+    needs: quality-check
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v4
-      
-    - name: Setup Pages
+
+    - name: Setup GitHub Pages
       uses: actions/configure-pages@v3
-      
-    - name: Upload artifact
+
+    - name: Upload website artifact
       uses: actions/upload-pages-artifact@v2
       with:
         path: '.'
-        
+
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v2
-
-    - name: Display deployment URL
-      run: |
-        echo "🌐 Your website is live at: ${{ steps.deployment.outputs.page_url }}"
