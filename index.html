@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Website Template - CI/CD Demo</title>
+    <meta name="description" content="A static website template with automated CI/CD pipeline using GitHub Actions">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo" style="height: 40px; vertical-align: middle;">
+                CI/CD Demo
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="https://github.com/yourusername/static-website-template" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero fade-in">
+            <h1>Automated CI/CD Pipeline</h1>
+            <p>This static website is automatically deployed via GitHub Actions on every push</p>
+            <button class="cta-button">See CI/CD in Action!</button>
+        </section>
+        
+        <section id="features" class="content-section">
+            <h2>Pipeline Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🚀 Auto Deployment</h3>
+                    <p>Automatically deploys to GitHub Pages on every push to the main branch</p>
+                </div>
+                <div class="feature-card">
+                    <h3>✅ Quality Checks</h3>
+                    <p>HTML validation, broken link detection, and performance testing</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Lighthouse CI</h3>
+                    <p>Automated performance, accessibility, and SEO audits</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 Security Scans</h3>
+                    <p>Weekly security vulnerability assessments</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Responsive Design</h3>
+                    <p>Mobile-first design that works on all devices</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌐 GitHub Pages</h3>
+                    <p>Free hosting with custom domain support</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="workflow" class="content-section" style="background: #f8f9fa;">
+            <h2>How It Works</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p>This website demonstrates a complete CI/CD pipeline for static content:</p>
+                <ol style="text-align: left; display: inline-block; margin: 2rem 0;">
+                    <li>Push code to GitHub repository</li>
+                    <li>GitHub Actions automatically triggers</li>
+                    <li>Quality checks run (HTML validation, link checking)</li>
+                    <li>Performance tests execute (Lighthouse CI)</li>
+                    <li>Website deploys to GitHub Pages</li>
+                    <li>Status reported back to pull requests</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Static Website Template | Built with GitHub Actions CI/CD | 
+           <a href="https://github.com/yourusername/static-website-template/actions" style="color: #3498db;">View Pipeline</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+            Last deployed: <span id="deploy-time"></span>
+        </p>
+    </footer>
+    
+    <script src="js/script.js"></script>
+    <script>
+        // Update deployment time
+        document.getElementById('deploy-time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
