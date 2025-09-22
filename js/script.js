@@ -160,3 +160,28 @@ function loadContent(url, container) {
             console.error('Error loading content:', error);
         });
 }
+
+// Add deployment status indicator
+function addDeploymentStatus() {
+    const statusDiv = document.createElement('div');
+    statusDiv.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        ">
+            ✅ Live - Deployed via CI/CD
+        </div>
+    `;
+    document.body.appendChild(statusDiv);
+}
+
+// Call the function
+addDeploymentStatus();
