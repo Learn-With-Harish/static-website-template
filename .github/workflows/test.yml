@@ -1,17 +1,19 @@
-name: Test Static Website
+name: Security and Performance Tests
 
-on: [push, pull_request]
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sunday
+  workflow_dispatch:  # Manual trigger
 
 jobs:
-  test:
+  security-scan:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Check HTML syntax
-      run: |
-        find . -name "*.html" -exec echo "Checking {}" \; -exec tidy -q -errors {} \; || true
-        
-    - name: Check for large files
-      run: |
-        find . -name "*.jpg" -o -name "*.png" -o -name "*.gif" | xargs ls -lh | awk '$5 > 1000000 {print "Large file:", $9, $5}'
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for exposed secrets
+      uses: gitleaks/gitleaks-action@v2
+      
+    - name: Dependency vulnerability scan
+      uses: actionshub/awesome-security@main

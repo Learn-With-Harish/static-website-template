@@ -24,20 +24,15 @@ jobs:
       uses: actionshub/html5validator@main
       with:
         pattern: "**/*.html"
-        ignore: "node_modules/"
 
     - name: Check for broken links
       uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-        use-quiet-mode: 'yes'
-        config-file: '.github/workflows/linkcheck.json'
 
     - name: Lighthouse CI Performance Check
       uses: treosh/lighthouse-ci-action@v10
       with:
         uploadArtifacts: true
         temporaryPublicStorage: true
-        configPath: '.github/workflows/lighthouse-config.json'
 
   # Deployment to GitHub Pages
   deploy:
@@ -45,10 +40,6 @@ jobs:
     needs: quality-check
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    
-    permissions:
-      pages: write
-      id-token: write
     
     environment:
       name: github-pages
