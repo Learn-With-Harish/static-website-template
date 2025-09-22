@@ -1,0 +1,17 @@
+name: Test Static Website
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check HTML syntax
+      run: |
+        find . -name "*.html" -exec echo "Checking {}" \; -exec tidy -q -errors {} \; || true
+        
+    - name: Check for large files
+      run: |
+        find . -name "*.jpg" -o -name "*.png" -o -name "*.gif" | xargs ls -lh | awk '$5 > 1000000 {print "Large file:", $9, $5}'
