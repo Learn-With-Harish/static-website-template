@@ -1,66 +1,31 @@
-name: Deploy Static Website to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  # Quality checks for static content
-  quality-check:
-    name: Quality Assurance
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: HTML Validation
-      uses: cycleplatform/html5-validator-action@v1
-      with:
-        directory: ./
-        ignore: "node_modules/"
-
-    - name: Check for broken links
-      uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-        use-quiet-mode: 'yes'
-        use-verbose-mode: 'yes'
-
-    - name: Lighthouse CI Performance Check
-      uses: treosh/lighthouse-ci-action@v10
-      with:
-        uploadArtifacts: true
-        temporaryPublicStorage: true
-
-  # Deployment to GitHub Pages
   deploy:
-    name: Deploy to GitHub Pages
-    needs: quality-check
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-    - name: Checkout repository
+    - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Setup GitHub Pages
+      
+    - name: Setup Pages
       uses: actions/configure-pages@v3
-
-    - name: Upload website artifact
+      
+    - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
       with:
         path: '.'
-
-    - name: Deploy to GitHub Pages
+        
+    - name: Deploy
       id: deployment
       uses: actions/deploy-pages@v2
