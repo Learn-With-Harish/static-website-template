@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <meta name="description" content="A static website template with automated CI/CD pipeline using GitHub Actions">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <header>
         <nav>
@@ -22,14 +24,18 @@
             </ul>
         </nav>
     </header>
-    
+
     <main>
         <section class="hero fade-in">
-            <h1>Automated CI/CD Pipeline ~ <i>HariHaran Somasundharam</i></h1>
-            <p>This static website is automatically deployed via GitHub Actions on every push</p>
+            <h1>✅ CI/CD Pipeline Verified!</h1>
+            <p>🚀 Successfully deployed via GitHub Actions - Last update: <span id="current-time"></span></p>
+
+            <script>
+                document.getElementById('current-time').textContent = new Date().toLocaleString();
+            </script>
             <button class="cta-button">See CI/CD in Action!</button>
         </section>
-        
+
         <section id="features" class="content-section">
             <h2>Pipeline Features</h2>
             <div class="feature-grid">
@@ -59,7 +65,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section id="workflow" class="content-section" style="background: #f8f9fa;">
             <h2>How It Works</h2>
             <div style="max-width: 800px; margin: 0 auto; text-align: center;">
@@ -75,20 +81,22 @@
             </div>
         </section>
     </main>
-    
+
     <footer>
-        <p>&copy; 2024 Static Website Template | Built with GitHub Actions CI/CD | 
-           <a href="https://github.com/yourusername/static-website-template/actions" style="color: #3498db;">View Pipeline</a>
+        <p>&copy; 2024 Static Website Template | Built with GitHub Actions CI/CD |
+            <a href="https://github.com/yourusername/static-website-template/actions" style="color: #3498db;">View
+                Pipeline</a>
         </p>
         <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
             Last deployed: <span id="deploy-time"></span>
         </p>
     </footer>
-    
+
     <script src="js/script.js"></script>
     <script>
         // Update deployment time
         document.getElementById('deploy-time').textContent = new Date().toLocaleString();
     </script>
 </body>
+
 </html>
